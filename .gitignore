@@ -26,3 +26,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+#test
+src/assests/
+README.md
+vite.config.js
