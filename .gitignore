@@ -28,6 +28,6 @@ coverage
 *.sw?
 
 #test
-src/assests/
+src/assets/
 README.md
 vite.config.js
