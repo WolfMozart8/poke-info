@@ -1,77 +1,46 @@
-<script>
-export default {
-    data() {
-        return {
-            info: null,
-            pokemon: null,
-        }
-    },
-    props : {
-        pokemonId : Number
-    },
-    
-    methods: {
-        async fetchPokemon() {
-            console.log(this.pokemonId)
-            try {
-                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.pokemonId}`);
-
-                if (!response.ok) {
-                    throw new Error('No se pudo obtener el Pokémon.');
-                }
-
-                const data = await response.json();
-                console.log(data)
-                this.pokemon = data
-                
-                const responseInfo = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${this.pokemonId}/`)
-
-                if (!responseInfo.ok) {
-                    throw new Error('No se pudo obtener el Pokémon.');
-                }
-
-                const dataInfo = await responseInfo.json();
-                this.info = dataInfo
-
-                console.log(this.info)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    },
-    // async fetchInfo(pokemon) {
-    //     try {
-    //         const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}/`)
-
-    //         if (!response.ok) {
-    //                 throw new Error('No se pudo obtener el Pokémon.');
-    //             }
-    //         const data = await response.json();
-
-    //         this.info = data
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-}
-</script>
-
 <template>
-    <button @click="fetchPokemon">Obtener Pokémon</button>
     <div v-if="pokemon" class="pokemon-card">
-        <img class="pokemon-image" :src="pokemon.sprites.front_default" alt="Imagen del Pokémon">
+        <img class="pokemon-image" :src="pokemon.sprites.front_default" alt="Pokemon image">
         <div class="pokemon-info">
-            <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+            <h2 class="pokemon-name">{{ pokemon.name.toUpperCase() }}</h2>
             <h2 v-if="info" class="pokemon-name-jp">{{ info.names[0].name }}</h2>
-            <p class="pokemon-id">ID: {{ pokemon.id }}</p>
-            <p v-if="info" class="pokemon-description">{{ info.flavor_text_entries[0].flavor_text }}</p>
+            <!-- <p class="pokemon-id">ID: {{ pokemon.id }}</p> -->
+            <!-- <p v-if="info" class="pokemon-description">{{ info.flavor_text_entries[0].flavor_text }}</p> -->
         </div>
     </div>
-    <div v-else>...loading</div>
+    <div class="loading-div" v-else>
+        <div class="spinner-border loading" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 </template>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
+<script setup>
+import { ref, watchEffect } from 'vue';
+    const pokemon = ref(null);
+    const info = ref(null);
+
+    const props = defineProps({
+        pokemonId: Number
+    });
+    watchEffect(async () => {
+        const url = `https://pokeapi.co/api/v2/pokemon/${props.pokemonId}`;
+        const urlInfo = `https://pokeapi.co/api/v2/pokemon-species/${props.pokemonId}/`;
+        pokemon.value = await ((await fetch(url)).json());
+        info.value = await((await fetch(urlInfo)).json());
+    });
+    const fetchPokemon = async ()=> {
+        const responsePokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${props.pokemonId}`);
+    };
+</script>
+
+<style scoped>
+    @import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
+
+.loading-div {
+    width: 300px;
+    height: 300px;
+}
 
 .pokemon-name-jp {
     font-family: 'Rampart One', cursive;
@@ -80,8 +49,10 @@ export default {
     top: 20px;
     right: 0px;
 }
+
 .pokemon-card {
     width: 300px;
+    height: 300px;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
