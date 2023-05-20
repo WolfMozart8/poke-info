@@ -36,17 +36,17 @@ const reset = () => {
 </script>
 
 <template>
-  
   <main class="container">
-    <button :disabled="actual <= 0 " @click="decrement">&lt;</button>
-    <button @click="increment">></button>
+    <button class="btn-left" :disabled="actual <= 1 " @click="decrement">&lt;</button>
+    <button class="btn-right" @click="increment">></button>
     <div class="row gap-3 justify-content-center">
       <!-- <Card class="col-4" v-for="actual in max" :pokemonId="actual" :key="actual" /> -->
-      <KeepAlive>
       <card class="col-4" :pokemonId="actual"/>
       <card class="col-4" :pokemonId="actual + 1"/>
       <card class="col-4" :pokemonId="actual + 2"/>
-      </KeepAlive>
+      <card class="col-4" :pokemonId="actual + 3"/>
+      <card class="col-4" :pokemonId="actual + 4"/>
+      <card class="col-4" :pokemonId="actual + 5"/>
       <!-- <card class="col-4" :pokemonId="counter[3]"/>
       <card class="col-4" :pokemonId="counter[4]"/>
       <card class="col-4" :pokemonId="counter[5]"/> -->
@@ -55,8 +55,21 @@ const reset = () => {
 </template>
 
 <style scoped>
-  body {
-    background-color: red;
-    background: linear-gradient(90deg, rgba(0,45,7,1) 8%, rgba(64,155,13,1) 36%, rgba(182,201,24,1) 100%);
-  }
+.btn-left {
+  position: fixed;
+    top: 0;
+    height: 50%;
+    margin: auto 0;
+    left: 0;
+    bottom: 0;
+}
+.btn-right {
+  position: fixed;
+    top: 0;
+    height: 50%;
+    margin: auto 0;
+    right: 0;
+    bottom: 0;
+}
+
 </style>
