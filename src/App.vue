@@ -5,23 +5,12 @@ import Card from './components/card.vue';
 
 const actual = ref(1);
 const max = ref(6);
-const counter = ref([1, 2, 3, 4, 5, 6])
-
-
-const nextList = () => {
-  actual.value += 6;
-  max.value += 6;
-}
-const prevList = () => {
-  actual.value -= 6;
-  max.value -= 6;
-}
 
 const increment = () => {
-  actual.value++;
+  actual.value += 6;
 }
 const decrement = () => {
-  actual.value--;
+  actual.value -= 6;
 }
 // watch(counter, (next) => {
 //   console.log(next);

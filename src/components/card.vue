@@ -1,5 +1,5 @@
 <template>
-    <div v-if="pokemon" class="pokemon-card">
+    <div v-if="pokemon" class="pokemon-card" :style="{'background-color':info.color.name}">
         <div class="img-container">
             <img class="pokemon-image" :src="pokemon.sprites.front_default" alt="Pokemon image">
         </div>
@@ -77,7 +77,7 @@ const numberFormat = (num) => {
 </script>
 
 <style scoped>
-    @import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 
 .loading-div {
     width: 300px;
@@ -87,7 +87,7 @@ const numberFormat = (num) => {
     width: 100%;
     background: url(../../src/assets/img/bg-grass.png);
     background-size: cover;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
 
 
 
@@ -95,6 +95,8 @@ const numberFormat = (num) => {
 .pokemon-info {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
+    background-color: #F8F8F8;
+    border-radius: 0 0 10px 10px;
 }
 .pokemon-info-body {
     display: flex;
@@ -104,7 +106,8 @@ const numberFormat = (num) => {
     height: 80%;
 }
 .pokemon-name-jp {
-    font-family: 'Rampart One', cursive;
+    font-family: 'DotGothic16', sans-serif;
+    color: #ccc;
     /* position: absolute; */
     writing-mode: tb;
     /* top: 20px;
@@ -117,7 +120,7 @@ const numberFormat = (num) => {
     width: 300px;
     height: 300px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
     /* display: flex;
     flex-direction: column;
