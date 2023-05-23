@@ -1,5 +1,5 @@
 <template>
-    <div v-if="pokemon" class="pokemon-card" :style="{'background-color':info.color.name}">
+    <div v-if="pokemon && info" class="pokemon-card" :class="info.color.name">
         <div class="img-container">
             <img class="pokemon-image" :src="pokemon.sprites.front_default" alt="Pokemon image">
         </div>
@@ -38,9 +38,21 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, onActivated, onDeactivated } from 'vue';
+import { ref, watchEffect } from 'vue';
     const pokemon = ref(null);
     const info = ref(null);
+    let colors = [
+    "green", 
+    "red",
+    "blue",
+    "white",
+    "brown",
+    "yellow",
+    "purple",
+    "pink",
+    "gray",
+    "black"
+]
 
     const props = defineProps({
         pokemonId: Number
@@ -51,15 +63,7 @@ import { ref, watchEffect, onActivated, onDeactivated } from 'vue';
         pokemon.value = await ((await fetch(url)).json());
         info.value = await((await fetch(urlInfo)).json());
     });
-    onActivated(() => {
-  // called on initial mount
-  // and every time it is re-inserted from the cache
-})
 
-onDeactivated(() => {
-  // called when removed from the DOM into the cache
-  // and also when unmounted
-})
 const numberFormat = (num) => {
     if (num < 10) {
         return "0." + num;
@@ -131,7 +135,10 @@ const numberFormat = (num) => {
 
     text-align: center;
     /* position: relative; */
+    border: none;
     background-color: #F8F8F8;
+
+    box-shadow: 0px 10px 22px 3px rgba(0,0,0,0.1);
 }
 
 .pokemon-image {
@@ -165,5 +172,62 @@ const numberFormat = (num) => {
     margin: 10px 0;
     color: #888888;
 
+}
+/* cards colors */
+.green {
+    background: rgb(11,104,26);
+background: linear-gradient(90deg, rgba(11,104,26,1) 6%, rgba(64,155,13,1) 52%, rgba(62,140,12,1) 81%, rgba(26,85,8,1) 100%);
+}
+.red {
+    background: rgb(104,11,11);
+background: linear-gradient(90deg, rgba(104,11,11,1) 6%, rgba(155,13,13,1) 52%, rgba(140,12,12,1) 81%, rgba(85,8,8,1) 100%);
+}
+.blue {
+    background: rgb(11,41,104);
+background: linear-gradient(90deg, rgba(11,41,104,1) 6%, rgba(13,54,155,1) 52%, rgba(12,51,140,1) 81%, rgba(8,30,85,1) 100%);
+}
+.blue .pokemon-name-jp {
+    color: #ccc;
+}
+.white {
+    background: rgb(198,203,207);
+background: linear-gradient(90deg, rgba(198,203,207,1) 6%, rgba(176,177,180,1) 52%, rgba(205,217,246,1) 81%, rgba(166,166,167,1) 100%);
+}
+.white .pokemon-name-jp {
+    color: #333333;
+
+}
+.brown {
+    background: rgb(145,107,35);
+background: linear-gradient(90deg, rgba(145,107,35,1) 6%, rgba(213,159,58,1) 52%, rgba(209,144,45,1) 81%, rgba(127,97,14,1) 100%);
+}
+.brown .pokemon-name-jp {
+    color: #333333;
+}
+.yellow {
+    background: rgb(145,134,35);
+background: linear-gradient(90deg, rgba(145,134,35,1) 6%, rgba(209,213,58,1) 52%, rgba(209,196,45,1) 81%, rgba(127,109,14,1) 100%);
+}
+.yellow .pokemon-name-jp {
+    color: #333333;
+}
+.purple {
+    background: rgb(84,23,122);
+background: linear-gradient(90deg, rgba(84,23,122,1) 6%, rgba(154,58,213,1) 52%, rgba(144,45,209,1) 81%, rgba(80,14,127,1) 100%);
+}
+.pink {
+    background: rgb(122,23,102);
+background: linear-gradient(90deg, rgba(122,23,102,1) 6%, rgba(213,58,178,1) 52%, rgba(209,45,156,1) 81%, rgba(127,14,117,1) 100%);
+}
+.gray {
+    background: rgb(139,139,139);
+background: linear-gradient(90deg, rgba(139,139,139,1) 6%, rgba(203,193,200,1) 52%, rgba(204,188,198,1) 81%, rgba(165,165,165,1) 100%);
+}
+.gray .pokemon-name-jp {
+    color: #333333;
+}
+.black {
+    background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 6%, rgba(60,57,59,1) 52%, rgba(59,59,59,1) 81%, rgba(0,0,0,1) 100%);
 }
 </style>
